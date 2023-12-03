@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\BriefDescription;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BookingRequest extends FormRequest
@@ -22,7 +23,13 @@ class BookingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'brief_description' => ['required', 'string', 'in:'.BriefDescription::values()->implode(',')],
+            'start_date' => ['required', 'date', 'after_or_equal:today'],
+            'end_date' => ['required', 'date', 'after_or_equal:start_date'],
+            'start_time' => ['required', 'date_format:H:i'],
+            'end_time' => ['required', 'date_format:H:i'],
+            'contact_number' => ['required', 'string', 'min:10', 'max:11'],
+            'purpose' => ['required', 'string'],
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BookingRequest;
 use App\Models\Booking;
+use Illuminate\Support\Carbon;
 
 class BookingController extends Controller
 {
@@ -12,15 +13,16 @@ class BookingController extends Controller
      */
     public function index()
     {
-        //
+        return view('application');
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
+    public function create(string $date)
+    {   
+        $date = Carbon::parse($date)->format('Y-m-d');
+        return view('application', compact('date'));
     }
 
     /**
@@ -28,7 +30,19 @@ class BookingController extends Controller
      */
     public function store(BookingRequest $request)
     {
-        //
+        $request->validated();
+        
+        $booking = Booking::create([
+            'purpose' => $request->purpose,
+            'brief_description' => $request->brief_description,
+            'start_date' => $request->start_date,
+            'start_time' => $request->start_time,
+            'end_date' => $request->end_date,
+            'end_time' => $request->end_time,
+            'user_id' => auth()->user()->id,
+        ]);
+
+        return redirect()->route('home')->with('success', 'Booking request sent!');
     }
 
     /**

@@ -1,21 +1,22 @@
 <?php
 namespace App\Traits;
+use Illuminate\Support\Collection;
 trait EnumToArray
 {
 
-  public static function names(): array
+  public static function names(): Collection
   {
-    return array_column(self::cases(), 'name');
+    return collect(array_column(self::cases(), 'name'));
   }
 
-  public static function values(): array
+  public static function values(): Collection
   {
-    return array_column(self::cases(), 'value');
+    return collect(array_column(self::cases(), 'value'));
   }
 
-  public static function array(): array
+  public static function collection(): Collection
   {
-    return array_combine(self::values(), self::names());
+    return collect(array_combine(self::values(), self::names()));
   }
 
 }

@@ -7,6 +7,8 @@ export default defineConfig({
             input: [
                 'resources/sass/app.scss',
                 'resources/js/app.js',
+                'resources/css/zabuto_calendar.min.css',
+                'resources/js/zabuto_calendar.min.js',
             ],
             refresh: true,
         }),

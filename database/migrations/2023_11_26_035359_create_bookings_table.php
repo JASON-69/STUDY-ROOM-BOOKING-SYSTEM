@@ -15,8 +15,10 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->text('purpose');
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
+            $table->date('start_date');
+            $table->time('start_time');
+            $table->date('end_date');
+            $table->time('end_time');
             $table->enum('booking_status', BookingStatusEnum::values())->default(BookingStatusEnum::BOOKED->value);
             $table->timestamps();
             $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();

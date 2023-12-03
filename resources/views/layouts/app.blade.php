@@ -14,7 +14,9 @@
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
 
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @vite(['resources/sass/app.scss', 'resources/css/zabuto_calendar.min.css', 'resources/sass/icons.scss'])
+
+    @vite(['resources/js/app.js', 'resources/js/zabuto_calendar.min.js'])
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Itim">
 
@@ -27,7 +29,8 @@
             <div class="container">
                 <div class="navbar-brand">
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        <img src="/favicon.svg" alt="System Logo" width="30" height="24" class="d-inline-block align-text-top">
+                        <img src="/favicon.svg" alt="System Logo" width="30" height="24"
+                            class="d-inline-block align-text-top">
                         {{ __('Study Room Booking System') }}
                     </a>
                 </div>
@@ -39,8 +42,10 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-
+                    <ul class="navbar-nav me-auto d-md-none">
+                        @auth
+                            @include('components.navBarList')
+                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -68,7 +73,7 @@
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                                 document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
@@ -82,11 +87,23 @@
                 </div>
             </div>
         </nav>
-
-        <main class="py-4">
+        <main class="py-4 d-flex">
+            @auth
+                <div class="d-none flex-column flex-shrink-0 p-3 bg-light d-md-flex" style="width: 280px;">
+                    <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                        <span class="fs-4">{{ App\Enums\UserRolesEnum::getRoleName(auth()->user()->role_id) }}</span>
+                    </div>
+                    <hr>
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        @include('components.navBarList')
+                    </ul>
+                    <hr>
+                </div>
+            @endauth
             @yield('content')
         </main>
     </div>
+    @yield('scripts')
 </body>
 
 </html>

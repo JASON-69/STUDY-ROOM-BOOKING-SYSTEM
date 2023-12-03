@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Enums\UserRolesEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -44,4 +46,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
+    public function isAdmin(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->role_id == UserRolesEnum::Admin->value;
+            }
+        );
+    }
 }
