@@ -62,6 +62,14 @@ class Booking extends Model
             }
         );
     }
+    public function startbydate(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->start_date->format('Y-m-d');
+            }
+        );
+    }
 
     public function time(): Attribute
     {

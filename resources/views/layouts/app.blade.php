@@ -25,7 +25,7 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
             <div class="container">
                 <div class="navbar-brand">
                     <a class="navbar-brand" href="{{ url('/') }}">
@@ -42,7 +42,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto d-md-none">
+                    <ul class="navbar-nav me-auto d-lg-none">
                         @auth
                             @include('components.navBarList')
                         @endauth
@@ -89,7 +89,7 @@
         </nav>
         <main class="py-4 d-flex">
             @auth
-                <div class="d-none flex-column flex-shrink-0 p-3 bg-light d-md-flex" style="width: 280px;">
+                <div class="d-none flex-column flex-shrink-0 p-3 bg-light d-lg-flex" style="width: 280px;">
                     <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
                         <span class="fs-4">{{ App\Enums\UserRolesEnum::getRoleName(auth()->user()->role_id) }}</span>
                     </div>
@@ -102,6 +102,7 @@
             @endauth
             @yield('content')
         </main>
+        @yield('modals')
     </div>
     @yield('scripts')
 </body>

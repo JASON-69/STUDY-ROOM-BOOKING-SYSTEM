@@ -14,7 +14,7 @@
         <label for="{{ $inputName }}" class="col-md-4 col-form-label text-md-end">{{ ucfirst($inputLabel) }}</label>
 
         <div class="col-md-6">
-            <select id="{{ $inputName }}" class="form-select @error($inputName) is-invalid @enderror"
+            <select id="{{ $inputName }}" class="form-select @error($inputName) is-invalid @enderror" @disabled($disabled ?? false)
                 name="{{ $inputName }}" @required($required ?? false) @if ($autofocus ?? false) autofocus @endif>
                 @foreach ($inputOptions as $option)
                     <option value="{{ $option }}" @selected($option === ($inputDefault ?? old($inputName)))>

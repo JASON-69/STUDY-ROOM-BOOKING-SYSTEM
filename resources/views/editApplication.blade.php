@@ -5,7 +5,7 @@
 @endsection
 
 @section('card-content')
-    <form method="POST" action="{{ route('application.store') }}">
+    <form method="POST" action="{{ route('application.update', $booking->id) }}">
         @csrf
 
         @include('components.inputField', [
@@ -13,13 +13,14 @@
             'inputType' => 'option',
             'inputLabel' => 'Brief Description',
             'inputOptions' => App\Enums\BriefDescription::values(),
+            'inputDefault' => $booking->brief_description,
         ])
 
         @include('components.inputField', [
             'inputName' => 'name',
             'inputType' => 'text',
             'inputLabel' => 'Student / Staff Name',
-            'inputDefault' => auth()->user()->name,
+            'inputDefault' => $booking->user->name,
             'readonly' => true,
         ])
 
@@ -27,7 +28,7 @@
             'inputName' => 'username',
             'inputType' => 'text',
             'inputLabel' => 'Matric / Staff ID',
-            'inputDefault' => auth()->user()->username,
+            'inputDefault' => $booking->user->username,
             'readonly' => true,
         ])
 
@@ -35,6 +36,7 @@
             'inputName' => 'purpose',
             'inputType' => 'text',
             'inputLabel' => 'Purpose',
+            'inputDefault' => $booking->purpose,
             'required' => true,
             'autofocus' => true,
         ])
@@ -43,7 +45,7 @@
             'inputName' => 'contact_number',
             'inputType' => 'text',
             'inputLabel' => 'Contact Number',
-            'inputDefault' => auth()->user()->mobileNumber,
+            'inputDefault' => $booking->user->mobileNumber,
             'readonly' => true,
         ])
         <hr>
@@ -52,7 +54,8 @@
 
             <div class="col-md-4">
                 <input id="start_date" type="date" class="form-control @error('start_date') is-invalid @enderror"
-                    name="start_date" value="{{ $date ?? old('start_date') }}" autocomplete="start_date" required>
+                    name="start_date" value="{{ old('start_date') ?? $booking->start_date->format('Y-m-d') }}"
+                    autocomplete="start_date" required>
 
                 @error('start_date')
                     <span class="invalid-feedback" role="alert">
@@ -64,7 +67,8 @@
 
             <div class="col-md-4">
                 <input id="end_date" type="date" class="form-control @error('end_date') is-invalid @enderror"
-                    name="end_date" value="{{ $date ?? old('end_date') }}" autocomplete="end_date" required>
+                    name="end_date" value="{{ old('end_date') ?? $booking->end_date->format('Y-m-d') }}"
+                    autocomplete="end_date" required>
 
                 @error('end_date')
                     <span class="invalid-feedback" role="alert">
@@ -79,7 +83,8 @@
 
             <div class="col-md-4">
                 <input id="start_time" type="time" class="form-control @error('start_time') is-invalid @enderror"
-                    name="start_time" value="{{ old('start_time') }}" autocomplete="start_time" required>
+                    name="start_time" value="{{ old('start_time') ?? $booking->start_time->format('H:i') }}"
+                    autocomplete="start_time" required>
 
                 @error('start_time')
                     <span class="invalid-feedback" role="alert">
@@ -91,7 +96,8 @@
 
             <div class="col-md-4">
                 <input id="end_time" type="time" class="form-control @error('end_time') is-invalid @enderror"
-                    name="end_time" value="{{ old('end_time') }}" autocomplete="end_time" required>
+                    name="end_time" value="{{ old('end_time') ?? $booking->end_time->format('H:i') }}"
+                    autocomplete="end_time" required>
 
                 @error('end_time')
                     <span class="invalid-feedback" role="alert">
@@ -117,7 +123,7 @@
             </button>
 
             <button type="submit" class="btn btn-primary mx-2">
-                {{ __('Save') }}
+                {{ __('Update') }}
             </button>
         </div>
     </form>
@@ -132,6 +138,6 @@
             document.getElementById("end_time").value = "";
             window.location.href = "{{ route('home') }}";
         }
-        document.querySelector('#button-cancel').addEventListener('click', clear);
+        document.querySelector("#button-cancel").addEventListener("click", clear);
     </script>
 @endsection
